@@ -1,0 +1,101 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{color}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1.5em} 
+\usepackage[BoldFont,SlantFont]{xeCJK}
+\setCJKmainfont{SimSun}
+\setCJKmonofont{SimSun}% 设置缺省中文字体
+
+
+\usepackage{geometry}   %设置页边距的宏包
+\usepackage{titlesec}   %设置页眉页脚的宏包
+\geometry{left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm}  %设置 上、左、下、右 页边距
+
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{ \textbf{Input:}} %Use Input in the format of Algorithm  
+\renewcommand{\algorithmicensure}{ \textbf{Output:}} %UseOutput in the format of Algorithm 
+%\usepackage{algorithm2e}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The following definitions are to extend the LaTeX algorithmic 
+%% package with SWITCH statements and one-line structures.
+%% The extension is by 
+%%   Prof. Farn Wang 
+%%   Dept. of Electrical Engineering, 
+%%   National Taiwan University. 
+%% 
+\newcommand{\SWITCH}[1]{\STATE \textbf{switch} (#1)}
+\newcommand{\ENDSWITCH}{\STATE \textbf{end switch}}
+\newcommand{\CASE}[1]{\STATE \textbf{case} #1\textbf{:} \begin{ALC@g}}
+\newcommand{\ENDCASE}{\end{ALC@g}}
+\newcommand{\CASELINE}[1]{\STATE \textbf{case} #1\textbf{:} }
+\newcommand{\DEFAULT}{\STATE \textbf{default:} \begin{ALC@g}}
+\newcommand{\ENDDEFAULT}{\end{ALC@g}}
+\newcommand{\DEFAULTLINE}[1]{\STATE \textbf{default:} }
+%% 
+%% End of the LaTeX algorithmic package extension.
+
+
+\usepackage{listings} 
+\lstnewenvironment{code}[1][]%
+{
+   \noindent
+   \minipage{\linewidth} 
+   \vspace{0.5\baselineskip}
+   \lstset{basicstyle=\ttfamily\footnotesize,frame=single,#1}}
+{\endminipage}
+\definecolor{rulecolor}{rgb}{0.5,0.5,0.5}
+\definecolor{commentcolor}{rgb}{0.2,0.2,0.2}
+\definecolor{keywordcolor}{rgb}{0,0,0.27}
+\lstset{
+  keywordstyle=\color{blue},
+  commentstyle=\color{red},
+  frame=shadowbox,
+  rulesepcolor=\color{rulecolor},
+  breaklines=true,
+  numbers=left,  
+  numberstyle=\tiny,
+  escapeinside=``
+}
+\renewcommand\contentsname{目录}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\refname}{参考文献}
+
+
+
+
+\title{The Art of Multiprocessor Programming}
+\author{lgbo}
+
+\begin{document}
+%生成文档标题
+\maketitle
+%生成目录
+
+\tableofcontents
+\section{自旋锁}
+主要的几种自旋锁的算法如图\ref{spinlocks}所示。
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{pic/自旋锁.eps}
+	\caption{几种自旋锁算法\label{spinlocks}}
+\end{figure}
+
+\paragraph*{注}
+\subparagraph*{假共享}
+设线程$T_1$和$T_2$分别拥有不共享的变量$v_1$和$v_2$，$v_1$和$v_2$在cache上都有缓存，且$v_1$和$v_2$被存放到同一个cache线上。假设某个时刻，$T_2$更新了$v_2$而$T_1$未改动过$v_1$，因为cache更新是以cache线为单位的，这会使得同一个cache线上的所有数据都变得无效。下一次$T_1$读取$v_1$时会发现本地cache上的$v_1$变成无效了，必须重新load $v_1$一次。这种情形下就表现的如同$T_1$和$T_2$间有共享存储一样。
+%\bibliographystyle{plain}
+\subparagraph*{CLHLock和MCSLock算法}书中的CLHLock和MCSLock算法实现需要自动垃圾回收机制支持。
+%\bibliography{see} 
+\end{document} 
+
