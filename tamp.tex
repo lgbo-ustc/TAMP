@@ -96,6 +96,16 @@
 设线程$T_1$和$T_2$分别拥有不共享的变量$v_1$和$v_2$，$v_1$和$v_2$在cache上都有缓存，且$v_1$和$v_2$被存放到同一个cache线上。假设某个时刻，$T_2$更新了$v_2$而$T_1$未改动过$v_1$，因为cache更新是以cache线为单位的，这会使得同一个cache线上的所有数据都变得无效。下一次$T_1$读取$v_1$时会发现本地cache上的$v_1$变成无效了，必须重新load $v_1$一次。这种情形下就表现的如同$T_1$和$T_2$间有共享存储一样。
 %\bibliographystyle{plain}
 \subparagraph*{CLHLock和MCSLock算法}书中的CLHLock和MCSLock算法实现需要自动垃圾回收机制支持。
+
+\section{管程和阻塞同步}
+\subsection{管程只是一个概念}
+与类将数据和方法封装为一个整体的概念类似，管程将数据、方法和同步细节封装在同一个模块包中。
+
+
+管程只是一个概念，重点在于管程隐藏了共享数据的同步细节。
+
+\subsubsection{读者-写者锁}
+英文原版的公平读者-写者锁算法有误。
 %\bibliography{see} 
 \end{document} 
 
